@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class shoot : MonoBehaviour {
-    public GameObject bulletSpawn;
-    public GameObject bullet;
-    float countdown = -1;
-	// Use this for initialization
-	void Start () {
-        bulletSpawn = GameObject.FindWithTag("GameObject");
+    public AudioClip shootSound;
+    public GameObject bulletPrefab;
+    // Use this for initialization
+    void Start () {
+        
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        countdown = countdown - Time.deltaTime;
-        if (countdown < 0)
+        if (Input.GetButtonDown("Fire1"))
         {
-            countdown = 0.5f;
-            GameObject obj = (GameObject)Instantiate(bullet, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
-            obj.GetComponent<Rigidbody>().velocity = Vector3.back * 20;
-            Destroy(obj, 5.0f);
+           GetComponent<AudioSource>().PlayOneShot(shootSound);
+       
+            GameObject b = (GameObject)Instantiate(
+                bulletPrefab,
+                transform.position,
+                transform.rotation);
+            b.GetComponent<Rigidbody>().velocity = transform.forward * 15;
+            
+
         }
-	}
+    }
 }
